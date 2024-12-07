@@ -18,7 +18,6 @@ const signup = async (req, res) => {
       email,
       password: hashedPassword,
       firebaseUid,
-      isVerified: false,
     });
 
     const savedAuth = await auth.save();

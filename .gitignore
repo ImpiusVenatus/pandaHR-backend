@@ -25,7 +25,3 @@ temp/
 *.swp
 *~
 .DS_Store
-
-kreeshee-service.json
-ToDo.txt
-config/firebaseAdmin.js
