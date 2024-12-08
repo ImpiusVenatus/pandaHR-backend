@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import swaggerSpec from "./swagger.js";
+import swaggerUi from "swagger-ui-express";
 
 import authRoutes from "./routes/auth.routes.js";
 
@@ -33,6 +35,14 @@ app.use(cookieParser());
 // Routes
 app.use("/auth", authRoutes);
 
+// Serve Swagger UI
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send("Something broke!");
+});
+
 app.listen(port, async () => {
   try {
     await connect();
@@ -40,9 +50,4 @@ app.listen(port, async () => {
   } catch (err) {
     console.error("Error starting server:", err);
   }
-});
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something broke!");
 });
