@@ -13,8 +13,7 @@ const authSchema = new Schema(
     },
     phone: {
       type: String,
-      required: true,
-      unique: true,
+      // unique: true,
     },
     password: {
       type: String,
@@ -24,6 +23,10 @@ const authSchema = new Schema(
       type: String,
       required: true,
       unique: true,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     role: {
       type: String,

@@ -1,28 +1,27 @@
 import express from "express";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import connectToMongoDB from "./config/db.js"; // Import the new connection function
 
 import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import attendanceRoutes from "./routes/attendance.routes.js";
+import candidateRoutes from "./routes/candidate.routes.js";
+import companyRoutes from "./routes/company.routes.js";
+import departmentRoutes from "./routes/department.routes.js";
+import holidayRoutes from "./routes/holiday.routes.js";
+import jobRoutes from "./routes/job.routes.js";
+import leaveRoutes from "./routes/leave.routes.js";
+import payrollRoutes from "./routes/payroll.routes.js";
 
 dotenv.config();
+
 const app = express();
 const port = process.env.PORT || 8000;
 const corsOptions = {
   origin: true,
   credentials: true,
-};
-
-// Database connection
-mongoose.set("strictQuery", false);
-const connect = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB Database Connected");
-  } catch (err) {
-    console.log("MongoDB Database Connection Failed:", err);
-  }
 };
 
 // Middleware
@@ -31,11 +30,22 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 
 // Routes
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/user", userRoutes);
 
+app.use("/api/attendance", attendanceRoutes);
+app.use("/api/candidate", candidateRoutes);
+app.use("/api/company", companyRoutes);
+app.use("/api/department", departmentRoutes);
+app.use("/api/holiday", holidayRoutes);
+app.use("/api/job", jobRoutes);
+app.use("/api/leave", leaveRoutes);
+app.use("/api/payroll", payrollRoutes);
+
+// Start the server
 app.listen(port, async () => {
   try {
-    await connect();
+    await connectToMongoDB(); // Use the new connection function
     console.log("Server listening on port", port);
   } catch (err) {
     console.error("Error starting server:", err);

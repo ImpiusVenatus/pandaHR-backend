@@ -5,7 +5,7 @@ import {
   getPayrollById,
   updatePayroll,
   deletePayroll,
-} from "../controllers/payrollController.js";
+} from "../controllers/company/payroll.controller.js";
 
 const router = express.Router();
 

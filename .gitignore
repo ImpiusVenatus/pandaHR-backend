@@ -25,3 +25,5 @@ temp/
 *.swp
 *~
 .DS_Store
+
+.env

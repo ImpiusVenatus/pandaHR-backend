@@ -1,11 +1,8 @@
-import express from "express";
-import Department from "../models/Department.js";
-import Company from "../models/Company.js"; // Assuming departments belong to a company
-
-const router = express.Router();
+import Department from "../../models/companyModels/Department.js";
+import Company from "../../models/companyModels/Company.js"; // Assuming departments belong to a company
 
 // CREATE a new department
-router.post("/", async (req, res) => {
+export const createDepartment = async (req, res) => {
   try {
     const { name, manager, employees, companyId } = req.body;
 
@@ -29,10 +26,10 @@ router.post("/", async (req, res) => {
       .status(500)
       .json({ message: "Error creating department", error: error.message });
   }
-});
+};
 
 // READ all departments
-router.get("/", async (req, res) => {
+export const getAllDepartments = async (req, res) => {
   try {
     const departments = await Department.find().populate("manager employees");
     res.status(200).json({ departments });
@@ -41,10 +38,10 @@ router.get("/", async (req, res) => {
       .status(500)
       .json({ message: "Error fetching departments", error: error.message });
   }
-});
+};
 
 // READ a single department by ID
-router.get("/:id", async (req, res) => {
+export const getDepartmentById = async (req, res) => {
   try {
     const { id } = req.params;
     const department = await Department.findById(id).populate(
@@ -61,10 +58,10 @@ router.get("/:id", async (req, res) => {
       .status(500)
       .json({ message: "Error fetching department", error: error.message });
   }
-});
+};
 
 // UPDATE a department
-router.put("/:id", async (req, res) => {
+export const updateDepartment = async (req, res) => {
   try {
     const { id } = req.params;
     const { name, manager, employees } = req.body;
@@ -79,21 +76,19 @@ router.put("/:id", async (req, res) => {
       return res.status(404).json({ message: "Department not found" });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Department updated successfully",
-        department: updatedDepartment,
-      });
+    res.status(200).json({
+      message: "Department updated successfully",
+      department: updatedDepartment,
+    });
   } catch (error) {
     res
       .status(500)
       .json({ message: "Error updating department", error: error.message });
   }
-});
+};
 
 // DELETE a department
-router.delete("/:id", async (req, res) => {
+export const deleteDepartment = async (req, res) => {
   try {
     const { id } = req.params;
 
@@ -115,6 +110,4 @@ router.delete("/:id", async (req, res) => {
       .status(500)
       .json({ message: "Error deleting department", error: error.message });
   }
-});
-
-export default router;
+};

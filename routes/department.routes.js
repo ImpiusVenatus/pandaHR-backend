@@ -5,7 +5,7 @@ import {
   getDepartmentById,
   updateDepartment,
   deleteDepartment,
-} from "../controllers/departmentController.js"; // Import controller functions
+} from "../controllers/company/department.controller.js"; // Import controller functions
 
 const router = express.Router();
 

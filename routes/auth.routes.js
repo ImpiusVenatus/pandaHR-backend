@@ -1,7 +1,7 @@
 import express from "express";
 
 import signup from "../controllers/auth/signup.controller.js";
-// import login from "../controllers/authControllers/login.controller.js";
+import login from "../controllers/auth/login.controller.js";
 // import logout from "../controllers/authControllers/logout.controller.js";
 // import {
 //   checkMongoUser,
@@ -14,8 +14,8 @@ const router = express.Router();
 
 router.post("/signup", signup);
 
-// Uncomment and document other routes as needed
-// router.post("/login", login);
+router.post("/login", login);
+
 // router.post("/logout", logout);
 // router.post("/update-password", protectRoute, updatePassword);
 

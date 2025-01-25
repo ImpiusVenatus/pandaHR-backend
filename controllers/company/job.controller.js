@@ -1,4 +1,4 @@
-import Job from "../models/Job.js";
+import Job from "../../models/companyModels/Job.js";
 
 // Create a new job listing
 export const createJob = async (req, res) => {
@@ -21,13 +21,11 @@ export const createJob = async (req, res) => {
     });
     res.status(201).json({ success: true, data: job });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error creating job",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error creating job",
+      error: error.message,
+    });
   }
 };
 
@@ -37,13 +35,11 @@ export const getAllJobs = async (req, res) => {
     const jobs = await Job.find().populate("department").populate("postedBy");
     res.status(200).json({ success: true, data: jobs });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching jobs",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching jobs",
+      error: error.message,
+    });
   }
 };
 
@@ -58,13 +54,11 @@ export const getJobById = async (req, res) => {
     }
     res.status(200).json({ success: true, data: job });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching job",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching job",
+      error: error.message,
+    });
   }
 };
 
@@ -89,13 +83,11 @@ export const updateJob = async (req, res) => {
     }
     res.status(200).json({ success: true, data: job });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error updating job",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating job",
+      error: error.message,
+    });
   }
 };
 
@@ -110,12 +102,10 @@ export const deleteJob = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Job deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error deleting job",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error deleting job",
+      error: error.message,
+    });
   }
 };

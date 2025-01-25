@@ -1,4 +1,4 @@
-import Attendance from "../models/Attendance.js";
+import Attendance from "../../models/companyModels/Attendance.js";
 
 // Create a new attendance record
 export const createAttendance = async (req, res) => {
@@ -13,13 +13,11 @@ export const createAttendance = async (req, res) => {
     });
     res.status(201).json({ success: true, data: attendance });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error creating attendance record",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error creating attendance record",
+      error: error.message,
+    });
   }
 };
 
@@ -32,13 +30,11 @@ export const getAllAttendance = async (req, res) => {
     );
     res.status(200).json({ success: true, data: attendanceRecords });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching attendance records",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching attendance records",
+      error: error.message,
+    });
   }
 };
 
@@ -56,13 +52,11 @@ export const getAttendanceById = async (req, res) => {
     }
     res.status(200).json({ success: true, data: attendance });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching attendance record",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching attendance record",
+      error: error.message,
+    });
   }
 };
 
@@ -82,13 +76,11 @@ export const updateAttendance = async (req, res) => {
     }
     res.status(200).json({ success: true, data: attendance });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error updating attendance record",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating attendance record",
+      error: error.message,
+    });
   }
 };
 
@@ -101,19 +93,15 @@ export const deleteAttendance = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Attendance record not found" });
     }
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Attendance record deleted successfully",
-      });
+    res.status(200).json({
+      success: true,
+      message: "Attendance record deleted successfully",
+    });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error deleting attendance record",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error deleting attendance record",
+      error: error.message,
+    });
   }
 };

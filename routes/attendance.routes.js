@@ -5,7 +5,7 @@ import {
   getAttendanceById,
   updateAttendance,
   deleteAttendance,
-} from "../controllers/attendanceController.js";
+} from "../controllers/company/attendance.controller.js";
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ router.get("/", getAllAttendance);
 router.get("/:id", getAttendanceById);
 
 // Route to update an attendance record by ID
-router.put("/:id", updateAttendance);
+router.patch("/:id", updateAttendance);
 
 // Route to delete an attendance record by ID
 router.delete("/:id", deleteAttendance);

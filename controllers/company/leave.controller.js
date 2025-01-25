@@ -1,4 +1,4 @@
-import Leave from "../models/Leave.js";
+import Leave from "../../models/companyModels/Leave.js";
 
 // Create a new leave request
 export const createLeave = async (req, res) => {
@@ -13,13 +13,11 @@ export const createLeave = async (req, res) => {
     });
     res.status(201).json({ success: true, data: leave });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error creating leave",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error creating leave",
+      error: error.message,
+    });
   }
 };
 
@@ -29,13 +27,11 @@ export const getAllLeaves = async (req, res) => {
     const leaves = await Leave.find().populate("user");
     res.status(200).json({ success: true, data: leaves });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching leaves",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching leaves",
+      error: error.message,
+    });
   }
 };
 
@@ -50,13 +46,11 @@ export const getLeaveById = async (req, res) => {
     }
     res.status(200).json({ success: true, data: leave });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching leave",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching leave",
+      error: error.message,
+    });
   }
 };
 
@@ -76,13 +70,11 @@ export const updateLeave = async (req, res) => {
     }
     res.status(200).json({ success: true, data: leave });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error updating leave",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating leave",
+      error: error.message,
+    });
   }
 };
 
@@ -99,12 +91,10 @@ export const deleteLeave = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Leave request deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error deleting leave",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error deleting leave",
+      error: error.message,
+    });
   }
 };

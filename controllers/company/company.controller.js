@@ -1,4 +1,4 @@
-import Company from "../models/Company.js";
+import Company from "../../models/companyModels/Company.js";
 
 // Create a new company
 export const createCompany = async (req, res) => {
@@ -29,13 +29,11 @@ export const createCompany = async (req, res) => {
     });
     res.status(201).json({ success: true, data: company });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error creating company",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error creating company",
+      error: error.message,
+    });
   }
 };
 
@@ -47,13 +45,11 @@ export const getAllCompanies = async (req, res) => {
     );
     res.status(200).json({ success: true, data: companies });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching companies",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching companies",
+      error: error.message,
+    });
   }
 };
 
@@ -70,13 +66,11 @@ export const getCompanyById = async (req, res) => {
     }
     res.status(200).json({ success: true, data: company });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching company",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching company",
+      error: error.message,
+    });
   }
 };
 
@@ -116,13 +110,11 @@ export const updateCompany = async (req, res) => {
     }
     res.status(200).json({ success: true, data: company });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error updating company",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating company",
+      error: error.message,
+    });
   }
 };
 
@@ -139,12 +131,10 @@ export const deleteCompany = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Company deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error deleting company",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error deleting company",
+      error: error.message,
+    });
   }
 };

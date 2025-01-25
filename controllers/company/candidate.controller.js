@@ -1,4 +1,4 @@
-import Candidate from "../models/Candidate.js";
+import Candidate from "../../models/companyModels/Candidate.js";
 
 // Create a new candidate
 export const createCandidate = async (req, res) => {
@@ -14,13 +14,11 @@ export const createCandidate = async (req, res) => {
     });
     res.status(201).json({ success: true, data: candidate });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error creating candidate",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error creating candidate",
+      error: error.message,
+    });
   }
 };
 
@@ -30,13 +28,11 @@ export const getAllCandidates = async (req, res) => {
     const candidates = await Candidate.find().populate("job", "title");
     res.status(200).json({ success: true, data: candidates });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching candidates",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching candidates",
+      error: error.message,
+    });
   }
 };
 
@@ -54,13 +50,11 @@ export const getCandidateById = async (req, res) => {
     }
     res.status(200).json({ success: true, data: candidate });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching candidate",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching candidate",
+      error: error.message,
+    });
   }
 };
 
@@ -80,13 +74,11 @@ export const updateCandidate = async (req, res) => {
     }
     res.status(200).json({ success: true, data: candidate });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error updating candidate",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating candidate",
+      error: error.message,
+    });
   }
 };
 
@@ -103,12 +95,10 @@ export const deleteCandidate = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Candidate deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error deleting candidate",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error deleting candidate",
+      error: error.message,
+    });
   }
 };

@@ -5,7 +5,7 @@ import {
   getLeaveById,
   updateLeave,
   deleteLeave,
-} from "../controllers/leaveController.js";
+} from "../controllers/company/leave.controller.js";
 
 const router = express.Router();
 

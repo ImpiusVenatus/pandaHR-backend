@@ -1,4 +1,4 @@
-import Payroll from "../models/Payroll.js";
+import Payroll from "../../models/companyModels/Payroll.js";
 
 // Create a new payroll entry
 export const createPayroll = async (req, res) => {
@@ -14,13 +14,11 @@ export const createPayroll = async (req, res) => {
     });
     res.status(201).json({ success: true, data: payroll });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error creating payroll",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error creating payroll",
+      error: error.message,
+    });
   }
 };
 
@@ -30,13 +28,11 @@ export const getAllPayrolls = async (req, res) => {
     const payrolls = await Payroll.find().populate("user");
     res.status(200).json({ success: true, data: payrolls });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching payrolls",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching payrolls",
+      error: error.message,
+    });
   }
 };
 
@@ -51,13 +47,11 @@ export const getPayrollById = async (req, res) => {
     }
     res.status(200).json({ success: true, data: payroll });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching payroll",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching payroll",
+      error: error.message,
+    });
   }
 };
 
@@ -77,13 +71,11 @@ export const updatePayroll = async (req, res) => {
     }
     res.status(200).json({ success: true, data: payroll });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error updating payroll",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating payroll",
+      error: error.message,
+    });
   }
 };
 
@@ -100,12 +92,10 @@ export const deletePayroll = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Payroll entry deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error deleting payroll",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error deleting payroll",
+      error: error.message,
+    });
   }
 };

@@ -1,4 +1,4 @@
-import Holiday from "../models/Holiday.js";
+import Holiday from "../../models/companyModels/Holiday.js";
 
 // Create a new holiday
 export const createHoliday = async (req, res) => {
@@ -7,13 +7,11 @@ export const createHoliday = async (req, res) => {
     const holiday = await Holiday.create({ name, date, description });
     res.status(201).json({ success: true, data: holiday });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error creating holiday",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error creating holiday",
+      error: error.message,
+    });
   }
 };
 
@@ -23,13 +21,11 @@ export const getAllHolidays = async (req, res) => {
     const holidays = await Holiday.find();
     res.status(200).json({ success: true, data: holidays });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching holidays",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching holidays",
+      error: error.message,
+    });
   }
 };
 
@@ -44,13 +40,11 @@ export const getHolidayById = async (req, res) => {
     }
     res.status(200).json({ success: true, data: holiday });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error fetching holiday",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching holiday",
+      error: error.message,
+    });
   }
 };
 
@@ -70,13 +64,11 @@ export const updateHoliday = async (req, res) => {
     }
     res.status(200).json({ success: true, data: holiday });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error updating holiday",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating holiday",
+      error: error.message,
+    });
   }
 };
 
@@ -93,12 +85,10 @@ export const deleteHoliday = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Holiday deleted successfully" });
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Error deleting holiday",
-        error: error.message,
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error deleting holiday",
+      error: error.message,
+    });
   }
 };
