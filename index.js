@@ -14,6 +14,7 @@ import holidayRoutes from "./routes/holiday.routes.js";
 import jobRoutes from "./routes/job.routes.js";
 import leaveRoutes from "./routes/leave.routes.js";
 import payrollRoutes from "./routes/payroll.routes.js";
+import employeeRoutes from "./routes/employee.routes.js";
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use("/api/holiday", holidayRoutes);
 app.use("/api/job", jobRoutes);
 app.use("/api/leave", leaveRoutes);
 app.use("/api/payroll", payrollRoutes);
+app.use("/api/employee", employeeRoutes);
 
 // Start the server
 app.listen(port, async () => {

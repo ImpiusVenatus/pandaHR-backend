@@ -4,14 +4,16 @@ import Company from "../../models/companyModels/Company.js"; // Assuming departm
 // CREATE a new department
 export const createDepartment = async (req, res) => {
   try {
-    const { name, manager, employees, companyId } = req.body;
+    // const { name, manager, employees, companyId } = req.body;
+    const { name } = req.body;
 
-    if (!companyId) {
-      return res.status(400).json({ message: "Company ID is required" });
-    }
+    // if (!companyId) {
+    //   return res.status(400).json({ message: "Company ID is required" });
+    // }
 
     // Create the department
-    const department = await Department.create({ name, manager, employees });
+    // const department = await Department.create({ name, manager, employees });
+    const department = await Department.create({ name });
 
     // Add the department to the company
     await Company.findByIdAndUpdate(companyId, {
@@ -109,5 +111,38 @@ export const deleteDepartment = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error deleting department", error: error.message });
+  }
+};
+
+// ADD employee(s) to a department
+export const addEmployeeToDepartment = async (req, res) => {
+  try {
+    const { id } = req.params; // Department ID
+    const { employees } = req.body; // Array of employee IDs to add
+
+    if (!employees || employees.length === 0) {
+      return res.status(400).json({ message: "Employee(s) data is required" });
+    }
+
+    // Update the department by adding new employees
+    const updatedDepartment = await Department.findByIdAndUpdate(
+      id,
+      { $addToSet: { employees: { $each: employees } } }, // Prevent duplicate entries
+      { new: true }
+    ).populate("manager employees"); // Populate related fields
+
+    if (!updatedDepartment) {
+      return res.status(404).json({ message: "Department not found" });
+    }
+
+    res.status(200).json({
+      message: "Employees added successfully to the department",
+      department: updatedDepartment,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error adding employees to department",
+      error: error.message,
+    });
   }
 };

@@ -24,6 +24,11 @@ const userSchema = new Schema(
       type: String,
       trim: true,
     },
+    role: {
+      type: String,
+      enum: ["HR Manager", "Employee"],
+      default: "Employee",
+    },
     department: {
       type: String,
       trim: true,

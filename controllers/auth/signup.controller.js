@@ -3,9 +3,10 @@ import Auth from "../../models/userModels/Auth.js";
 import User from "../../models/userModels/User.js";
 
 const signup = async (req, res) => {
-  const { fullName, companyName, email, password, firebaseUid } = req.body;
+  const { fullName, role, companyName, email, password, firebaseUid } =
+    req.body;
 
-  if (!fullName || !email || !password || !firebaseUid) {
+  if (!fullName || !email || !role || !password || !firebaseUid) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -27,6 +28,7 @@ const signup = async (req, res) => {
       authId: savedAuth._id,
       fullName,
       companyName,
+      role,
     });
 
     const savedUser = await user.save();

@@ -5,6 +5,7 @@ import {
   getDepartmentById,
   updateDepartment,
   deleteDepartment,
+  addEmployeeToDepartment,
 } from "../controllers/company/department.controller.js"; // Import controller functions
 
 const router = express.Router();
@@ -19,9 +20,12 @@ router.get("/", getAllDepartments);
 router.get("/:id", getDepartmentById);
 
 // Route to update a department by ID
-router.put("/:id", updateDepartment);
+router.patch("/:id", updateDepartment);
 
 // Route to delete a department by ID
 router.delete("/:id", deleteDepartment);
+
+// Route to add employees to a department
+router.patch("/:id/add-employees", addEmployeeToDepartment);
 
 export default router;
