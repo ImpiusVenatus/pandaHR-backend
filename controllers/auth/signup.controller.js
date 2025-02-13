@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import Auth from "../../models/userModels/Auth.js";
 import User from "../../models/userModels/User.js";
+import Company from "../../models/companyModels/Company.js";
 
 const signup = async (req, res) => {
   const { fullName, role, companyName, email, password, firebaseUid } =
@@ -19,9 +20,13 @@ const signup = async (req, res) => {
       email,
       password: hashedPassword,
       firebaseUid,
+      role,
     });
 
     const savedAuth = await auth.save();
+
+    // Initialize companyId as null
+    let companyId = null;
 
     // Create User document with reference to Auth
     const user = new User({
@@ -31,6 +36,17 @@ const signup = async (req, res) => {
       role,
     });
 
+    // If companyName is provided, create a new Company entry
+    if (companyName) {
+      const company = new Company({
+        name: companyName,
+        createdBy: user._id, // Set createdBy as the User's _id
+      });
+      const savedCompany = await company.save();
+      companyId = savedCompany._id;
+    }
+
+    user.companyId = companyId;
     const savedUser = await user.save();
 
     // Update Auth document with the userId

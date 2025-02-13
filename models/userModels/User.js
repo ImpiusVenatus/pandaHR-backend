@@ -20,6 +20,10 @@ const userSchema = new Schema(
     dob: {
       type: Date,
     },
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+    },
     companyName: {
       type: String,
       trim: true,

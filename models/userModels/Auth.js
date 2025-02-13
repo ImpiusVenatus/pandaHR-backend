@@ -30,7 +30,7 @@ const authSchema = new Schema(
     },
     role: {
       type: String,
-      enum: ["Admin", "Manager", "Employee"],
+      enum: ["Admin", "HR Manager", "Employee"],
       default: "Employee",
     },
     isVerified: {

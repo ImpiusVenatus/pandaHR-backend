@@ -1,15 +1,9 @@
-import Employee from "../../models/employeeModels/Employee.js"; // Assuming Employee model is in the models folder
+import Employee from "../../models/employeeModels/Employee.js";
 
 // Add a new employee
 export const addEmployee = async (req, res) => {
   try {
-    const { name, department, designation, type, status } = req.body;
-
-    // Check if employee ID already exists
-    // const existingEmployee = await Employee.findOne({ id });
-    // if (existingEmployee) {
-    //   return res.status(400).json({ message: "Employee ID already exists" });
-    // }
+    const { name, department, designation, type, status, companyId } = req.body;
 
     const newEmployee = new Employee({
       name,
@@ -17,6 +11,7 @@ export const addEmployee = async (req, res) => {
       designation,
       type,
       status,
+      companyId,
     });
     const savedEmployee = await newEmployee.save();
     res.status(201).json(savedEmployee);
@@ -117,5 +112,44 @@ export const removeEmployee = async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to delete employee", error: error.message });
+  }
+};
+
+export const getEmployeesByCompany = async (req, res) => {
+  try {
+    const { companyId } = req.params;
+
+    // Fetch employees belonging to the specified company
+    const employees = await Employee.find({ companyId: companyId }).populate(
+      "department"
+    );
+
+    if (!employees.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No employees found for this company",
+      });
+    }
+
+    res.status(200).json({ success: true, data: employees });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching employees",
+      error: error.message,
+    });
+  }
+};
+
+export const getEmployeeCountByCompanyId = async (req, res) => {
+  try {
+    const { companyId } = req.params;
+
+    const totalEmployees = await Employee.countDocuments({ companyId });
+
+    res.json({ totalEmployees });
+  } catch (error) {
+    console.error("Error fetching employee count:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

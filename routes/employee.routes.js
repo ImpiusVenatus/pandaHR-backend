@@ -5,6 +5,8 @@ import {
   getEmployeeById,
   updateEmployee,
   removeEmployee,
+  getEmployeesByCompany,
+  getEmployeeCountByCompanyId,
 } from "../controllers/employee/employee.controller.js";
 
 const router = express.Router();
@@ -23,5 +25,11 @@ router.patch("/:id", updateEmployee);
 
 // Route to delete a job listing by ID
 router.delete("/:id", removeEmployee);
+
+// Route to get employees by company ID
+router.get("/:companyId/employees", getEmployeesByCompany);
+
+// Route to get employee count by company ID
+router.get("/:companyId/employee-count", getEmployeeCountByCompanyId);
 
 export default router;

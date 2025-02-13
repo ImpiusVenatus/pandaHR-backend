@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import connectToMongoDB from "./config/db.js"; // Import the new connection function
+import connectToMongoDB from "./config/db.js";
 
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
@@ -33,7 +33,6 @@ app.use(cookieParser());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
-
 app.use("/api/attendance", attendanceRoutes);
 app.use("/api/candidate", candidateRoutes);
 app.use("/api/company", companyRoutes);
@@ -47,7 +46,7 @@ app.use("/api/employee", employeeRoutes);
 // Start the server
 app.listen(port, async () => {
   try {
-    await connectToMongoDB(); // Use the new connection function
+    await connectToMongoDB();
     console.log("Server listening on port", port);
   } catch (err) {
     console.error("Error starting server:", err);
