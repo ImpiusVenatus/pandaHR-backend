@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 const departmentSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
-    manager: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // References a User as manager
-    employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // List of employees in the department
+    manager: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    employees: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    companyId: { type: mongoose.Schema.Types.ObjectId, ref: "Company" },
   },
   { timestamps: true }
 );

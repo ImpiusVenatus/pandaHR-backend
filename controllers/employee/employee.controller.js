@@ -1,9 +1,21 @@
 import Employee from "../../models/employeeModels/Employee.js";
+import Department from "../../models/companyModels/Department.js";
 
 // Add a new employee
 export const addEmployee = async (req, res) => {
   try {
     const { name, department, designation, type, status, companyId } = req.body;
+
+    if (
+      !name ||
+      !department ||
+      !designation ||
+      !type ||
+      !status ||
+      !companyId
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
 
     const newEmployee = new Employee({
       name,
@@ -13,9 +25,26 @@ export const addEmployee = async (req, res) => {
       status,
       companyId,
     });
+
     const savedEmployee = await newEmployee.save();
+
+    // Find the department using companyId
+    const departmentData = await Department.findOne({ companyId });
+
+    if (!departmentData) {
+      return res
+        .status(404)
+        .json({ message: "Department not found for this company" });
+    }
+
+    // Update department by adding the employee ID
+    await Department.findByIdAndUpdate(departmentData._id, {
+      $push: { employees: savedEmployee._id },
+    });
+
     res.status(201).json(savedEmployee);
   } catch (error) {
+    console.error("Error adding employee:", error);
     res
       .status(500)
       .json({ message: "Failed to add employee", error: error.message });
