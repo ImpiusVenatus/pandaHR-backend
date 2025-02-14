@@ -1,17 +1,27 @@
+import mongoose from "mongoose";
 import Payroll from "../../models/companyModels/Payroll.js";
 
-// Create a new payroll entry
+// Create Payroll
 export const createPayroll = async (req, res) => {
   try {
-    const { user, salary, bonuses, deductions, payDate, status } = req.body;
+    const { employeeId, monthlySalary, CTC } = req.body;
+
+    console.log(req.body);
+
+    if (!employeeId || !monthlySalary || !CTC) {
+      return res.status(400).json({
+        success: false,
+        message: "Missing required fields",
+      });
+    }
+
     const payroll = await Payroll.create({
-      user,
-      salary,
-      bonuses,
-      deductions,
-      payDate,
-      status,
+      employeeId, // Mapping employeeId to user
+      monthlySalary, // Mapping monthlySalary to salary
+      CTC,
+      status: "Pending", // Default status
     });
+
     res.status(201).json({ success: true, data: payroll });
   } catch (error) {
     res.status(500).json({
@@ -25,7 +35,7 @@ export const createPayroll = async (req, res) => {
 // Get all payroll entries
 export const getAllPayrolls = async (req, res) => {
   try {
-    const payrolls = await Payroll.find().populate("user");
+    const payrolls = await Payroll.find().populate("employeeId", "name");
     res.status(200).json({ success: true, data: payrolls });
   } catch (error) {
     res.status(500).json({
@@ -39,7 +49,9 @@ export const getAllPayrolls = async (req, res) => {
 // Get payroll entry by ID
 export const getPayrollById = async (req, res) => {
   try {
-    const payroll = await Payroll.findById(req.params.id).populate("user");
+    const payroll = await Payroll.findById(req.params.id).populate(
+      "employeeId"
+    );
     if (!payroll) {
       return res
         .status(404)
@@ -58,10 +70,12 @@ export const getPayrollById = async (req, res) => {
 // Update payroll entry by ID
 export const updatePayroll = async (req, res) => {
   try {
-    const { salary, bonuses, deductions, payDate, status } = req.body;
+    const { payDate, status, CTC, monthlySalary } = req.body;
+
+    // Only update fields that are in the model schema
     const payroll = await Payroll.findByIdAndUpdate(
       req.params.id,
-      { salary, bonuses, deductions, payDate, status },
+      { payDate, status, CTC, monthlySalary },
       { new: true, runValidators: true }
     );
     if (!payroll) {
