@@ -70,19 +70,21 @@ export const getPayrollById = async (req, res) => {
 // Update payroll entry by ID
 export const updatePayroll = async (req, res) => {
   try {
-    const { payDate, status, CTC, monthlySalary } = req.body;
+    const { status } = req.body; // Only extract status from the request body
 
-    // Only update fields that are in the model schema
+    // Only update the status field
     const payroll = await Payroll.findByIdAndUpdate(
       req.params.id,
-      { payDate, status, CTC, monthlySalary },
+      { status }, // Update only the status field
       { new: true, runValidators: true }
     );
+
     if (!payroll) {
       return res
         .status(404)
         .json({ success: false, message: "Payroll entry not found" });
     }
+
     res.status(200).json({ success: true, data: payroll });
   } catch (error) {
     res.status(500).json({

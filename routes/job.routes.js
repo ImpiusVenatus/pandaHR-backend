@@ -19,7 +19,7 @@ router.get("/getAllJobs/:companyId", getAllJobs);
 router.get("/getJobById/:jobId", getJobById);
 
 // Route to update a job listing by ID
-router.put("/:id", updateJob);
+router.patch("/:id", updateJob);
 
 // Route to delete a job listing by ID
 router.delete("/:id", deleteJob);

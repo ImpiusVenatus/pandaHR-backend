@@ -110,13 +110,25 @@ export const updateJob = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Job ID is required" });
     }
+
+    // Ensure the status is a valid value
+    const allowedStatuses = ["Active", "Inactive", "Completed"];
+    if (req.body.status && !allowedStatuses.includes(req.body.status)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid status value" });
+    }
+
+    // Update the job's status
     const updatedJob = await Job.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
     });
+
     if (!updatedJob) {
       return res.status(404).json({ success: false, message: "Job not found" });
     }
+
     res.status(200).json({ success: true, data: updatedJob });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
