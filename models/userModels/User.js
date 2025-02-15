@@ -6,7 +6,7 @@ const userSchema = new Schema(
   {
     authId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Auth", // Reference to the Auth model
+      ref: "Auth",
       required: true,
     },
     fullName: {

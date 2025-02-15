@@ -130,7 +130,7 @@ export const removeEmployee = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deletedEmployee = await Employee.findOneAndDelete({ id });
+    const deletedEmployee = await Employee.findByIdAndDelete(id);
 
     if (!deletedEmployee) {
       return res.status(404).json({ message: "Employee not found" });
