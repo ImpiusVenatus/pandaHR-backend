@@ -8,7 +8,7 @@ export const createJob = async (req, res) => {
     const {
       companyId,
       title,
-      department,
+      departmentId,
       type,
       salary,
       location,
@@ -20,7 +20,7 @@ export const createJob = async (req, res) => {
     if (
       !companyId ||
       !title ||
-      !department ||
+      !departmentId ||
       !type ||
       !salary ||
       !location ||
@@ -41,7 +41,7 @@ export const createJob = async (req, res) => {
     }
 
     // Validate if department exists in the company
-    if (!company.departments.includes(department)) {
+    if (!company.departments.includes(departmentId)) {
       return res.status(400).json({
         success: false,
         message: "Department does not exist in this company",

@@ -8,7 +8,11 @@ const jobSchema = new mongoose.Schema(
       required: true,
     },
     title: { type: String, required: true, trim: true },
-    department: { type: String, required: true },
+    departmentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
+      required: true,
+    },
     type: {
       type: String,
       enum: ["Full-Time", "Part-Time", "Contract"],
