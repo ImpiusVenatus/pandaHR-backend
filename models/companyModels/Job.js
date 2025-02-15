@@ -2,16 +2,26 @@ import mongoose from "mongoose";
 
 const jobSchema = new mongoose.Schema(
   {
+    companyId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Company",
+      required: true,
+    },
     title: { type: String, required: true, trim: true },
-    department: { type: mongoose.Schema.Types.ObjectId, ref: "Department" },
-    description: { type: String, required: true },
-    requirements: [String],
-    salaryRange: { min: Number, max: Number },
+    department: { type: String, required: true },
+    type: {
+      type: String,
+      enum: ["Full-Time", "Part-Time", "Contract"],
+      required: true,
+    },
+    salary: { type: Number, required: true },
     status: {
       type: String,
-      enum: ["Open", "Closed"],
-      default: "Open",
+      enum: ["Active", "Inactive", "Completed"],
+      default: "Active",
     },
+    location: { type: String, enum: ["Remote", "On-site"], required: true },
+    place: { type: String, required: true },
     postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // HR or manager
   },
   { timestamps: true }

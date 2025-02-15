@@ -125,18 +125,24 @@ export const updateEmployee = async (req, res) => {
   }
 };
 
-// Remove an employee by ID
+// Remove an employee by ID and delete associated payroll record
 export const removeEmployee = async (req, res) => {
   try {
     const { id } = req.params;
 
+    // Find and delete the employee
     const deletedEmployee = await Employee.findByIdAndDelete(id);
 
     if (!deletedEmployee) {
       return res.status(404).json({ message: "Employee not found" });
     }
 
-    res.status(200).json({ message: "Employee removed successfully" });
+    // Delete associated payroll record
+    await Payroll.findOneAndDelete({ employeeId: id });
+
+    res
+      .status(200)
+      .json({ message: "Employee and payroll record removed successfully" });
   } catch (error) {
     res
       .status(500)

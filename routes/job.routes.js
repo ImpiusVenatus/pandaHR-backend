@@ -12,11 +12,11 @@ const router = express.Router();
 // Route to create a new job listing
 router.post("/", createJob);
 
-// Route to get all job listings
-router.get("/", getAllJobs);
+// Route to get all jobs by companyId
+router.get("/getAllJobs/:companyId", getAllJobs);
 
 // Route to get a job listing by ID
-router.get("/:id", getJobById);
+router.get("/getJobById/:jobId", getJobById);
 
 // Route to update a job listing by ID
 router.put("/:id", updateJob);

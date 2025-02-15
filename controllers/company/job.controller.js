@@ -1,111 +1,145 @@
 import Job from "../../models/companyModels/Job.js";
+import Company from "../../models/companyModels/Company.js";
+import User from "../../models/userModels/User.js";
 
-// Create a new job listing
+// Create a new job
 export const createJob = async (req, res) => {
   try {
     const {
+      companyId,
       title,
       department,
-      description,
-      requirements,
-      salaryRange,
+      type,
+      salary,
+      location,
+      place,
       postedBy,
     } = req.body;
-    const job = await Job.create({
-      title,
-      department,
-      description,
-      requirements,
-      salaryRange,
-      postedBy,
-    });
+
+    // Check if all required fields are present
+    if (
+      !companyId ||
+      !title ||
+      !department ||
+      !type ||
+      !salary ||
+      !location ||
+      !place ||
+      !postedBy
+    ) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required" });
+    }
+
+    // Validate if company exists
+    const company = await Company.findById(companyId);
+    if (!company) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Company does not exist" });
+    }
+
+    // Validate if department exists in the company
+    if (!company.departments.includes(department)) {
+      return res.status(400).json({
+        success: false,
+        message: "Department does not exist in this company",
+      });
+    }
+
+    // Validate if the postedBy user exists
+    const user = await User.findById(postedBy);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User (postedBy) does not exist" });
+    }
+
+    // Create the job after all validations pass
+    const job = new Job(req.body);
+    await job.save();
+
     res.status(201).json({ success: true, data: job });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error creating job",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Get all job listings
+// Get all jobs by companyId
 export const getAllJobs = async (req, res) => {
   try {
-    const jobs = await Job.find().populate("department").populate("postedBy");
+    const { companyId } = req.params;
+    if (!companyId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Company ID is required" });
+    }
+    const jobs = await Job.find({ companyId });
     res.status(200).json({ success: true, data: jobs });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error fetching jobs",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Get a job listing by ID
+// Get a job by ID
 export const getJobById = async (req, res) => {
   try {
-    const job = await Job.findById(req.params.id)
-      .populate("department")
-      .populate("postedBy");
+    const { jobId } = req.params;
+    if (!jobId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Job ID is required" });
+    }
+    const job = await Job.findById(jobId);
     if (!job) {
       return res.status(404).json({ success: false, message: "Job not found" });
     }
     res.status(200).json({ success: true, data: job });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error fetching job",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Update a job listing by ID
+// Update a job by ID
 export const updateJob = async (req, res) => {
   try {
-    const {
-      title,
-      department,
-      description,
-      requirements,
-      salaryRange,
-      status,
-    } = req.body;
-    const job = await Job.findByIdAndUpdate(
-      req.params.id,
-      { title, department, description, requirements, salaryRange, status },
-      { new: true, runValidators: true }
-    );
-    if (!job) {
+    const { id } = req.params;
+    if (!id) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Job ID is required" });
+    }
+    const updatedJob = await Job.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!updatedJob) {
       return res.status(404).json({ success: false, message: "Job not found" });
     }
-    res.status(200).json({ success: true, data: job });
+    res.status(200).json({ success: true, data: updatedJob });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error updating job",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
-// Delete a job listing by ID
+// Delete a job by ID
 export const deleteJob = async (req, res) => {
   try {
-    const job = await Job.findByIdAndDelete(req.params.id);
-    if (!job) {
+    const { id } = req.params;
+    if (!id) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Job ID is required" });
+    }
+    const deletedJob = await Job.findByIdAndDelete(id);
+    if (!deletedJob) {
       return res.status(404).json({ success: false, message: "Job not found" });
     }
     res
       .status(200)
       .json({ success: true, message: "Job deleted successfully" });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error deleting job",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
